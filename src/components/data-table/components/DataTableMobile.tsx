@@ -4,10 +4,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-// Types (use type imports)
 import type { ColumnDef, Table } from "@tanstack/react-table";
-
-// Functions and utilities (regular imports)
 import { flexRender } from "@tanstack/react-table";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import * as React from "react";
@@ -146,7 +143,15 @@ export function DataTableMobile<TData>({
 																c.id ===
 																"select"
 														)?.cell,
-														{ row }
+														row
+															.getAllCells()
+															.find(
+																(c) =>
+																	c.column
+																		.id ===
+																	"select"
+															)!
+															.getContext()
 													)}
 											</div>
 										)}
@@ -167,7 +172,14 @@ export function DataTableMobile<TData>({
 														(c) =>
 															c.id === "actions"
 													)?.cell,
-													{ row }
+													row
+														.getAllCells()
+														.find(
+															(c) =>
+																c.column.id ===
+																"actions"
+														)!
+														.getContext()
 												)}
 											</div>
 										)}
@@ -322,7 +334,13 @@ export function DataTableMobile<TData>({
 											columns.find(
 												(c) => c.id === "select"
 											)?.cell,
-											{ row }
+											row
+												.getAllCells()
+												.find(
+													(c) =>
+														c.column.id === "select"
+												)!
+												.getContext()
 										)}
 								</div>
 							)}
@@ -334,7 +352,12 @@ export function DataTableMobile<TData>({
 									{flexRender(
 										columns.find((c) => c.id === "actions")
 											?.cell,
-										{ row }
+										row
+											.getAllCells()
+											.find(
+												(c) => c.column.id === "actions"
+											)!
+											.getContext()
 									)}
 								</div>
 							)}
@@ -403,7 +426,13 @@ export function DataTableMobile<TData>({
 											columns.find(
 												(c) => c.id === "select"
 											)?.cell,
-											{ row }
+											row
+												.getAllCells()
+												.find(
+													(c) =>
+														c.column.id === "select"
+												)!
+												.getContext()
 										)}
 								</div>
 							)}
@@ -415,7 +444,12 @@ export function DataTableMobile<TData>({
 									{flexRender(
 										columns.find((c) => c.id === "actions")
 											?.cell,
-										{ row }
+										row
+											.getAllCells()
+											.find(
+												(c) => c.column.id === "actions"
+											)!
+											.getContext()
 									)}
 								</div>
 							)}

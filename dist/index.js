@@ -240,42 +240,51 @@ function TableCell({ className, ...props }) {
 
 // src/components/data-table/DataTable.tsx
 var import_react_table3 = require("@tanstack/react-table");
-var import_lucide_react9 = require("lucide-react");
+var import_lucide_react7 = require("lucide-react");
 var React9 = __toESM(require("react"));
 
 // src/components/data-table/components/DataTableEmpty.tsx
 var import_lucide_react = require("lucide-react");
 var React2 = __toESM(require("react"));
 var import_jsx_runtime4 = require("react/jsx-runtime");
+function isEmptyStateConfig(config) {
+  return config && typeof config === "object" && !React2.isValidElement(config) && !Array.isArray(config);
+}
 function DataTableEmpty({ config }) {
   if (React2.isValidElement(config)) {
     return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_jsx_runtime4.Fragment, { children: config });
   }
-  const emptyConfig = typeof config === "object" && config !== null ? config : {};
-  const Icon2 = emptyConfig.icon || import_lucide_react.FileX2;
-  return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(
-    "div",
-    {
-      className: cn(
-        "flex flex-col items-center justify-center py-10",
-        emptyConfig.className
-      ),
-      children: [
-        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Icon2, { className: "h-10 w-10 text-muted-foreground mb-4" }),
-        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("h3", { className: "text-lg font-semibold", children: emptyConfig.title || "No results found" }),
-        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("p", { className: "text-sm text-muted-foreground mb-4 text-center max-w-sm", children: emptyConfig.description || "Try adjusting your search or filter to find what you're looking for." }),
-        emptyConfig.action && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
-          Button,
-          {
-            variant: emptyConfig.action.variant || "outline",
-            size: "sm",
-            onClick: emptyConfig.action.onClick,
-            children: emptyConfig.action.label
-          }
-        )
-      ]
-    }
-  );
+  if (isEmptyStateConfig(config)) {
+    const Icon2 = config.icon || import_lucide_react.FileX2;
+    return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(
+      "div",
+      {
+        className: cn(
+          "flex flex-col items-center justify-center py-10",
+          config.className
+        ),
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Icon2, { className: "h-10 w-10 text-muted-foreground mb-4" }),
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("h3", { className: "text-lg font-semibold", children: config.title || "No results found" }),
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("p", { className: "text-sm text-muted-foreground mb-4 text-center max-w-sm", children: config.description || "Try adjusting your search or filter to find what you're looking for." }),
+          config.action && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+            Button,
+            {
+              variant: config.action.variant || "outline",
+              size: "sm",
+              onClick: config.action.onClick,
+              children: config.action.label
+            }
+          )
+        ]
+      }
+    );
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "flex flex-col items-center justify-center py-10", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_lucide_react.FileX2, { className: "h-10 w-10 text-muted-foreground mb-4" }),
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("h3", { className: "text-lg font-semibold", children: "No results found" }),
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("p", { className: "text-sm text-muted-foreground mb-4 text-center max-w-sm", children: "Try adjusting your search or filter to find what you're looking for." })
+  ] });
 }
 
 // src/components/ui/card.tsx
@@ -403,7 +412,9 @@ function DataTableMobile({
                         columns.find(
                           (c) => c.id === "select"
                         )?.cell,
-                        { row }
+                        row.getAllCells().find(
+                          (c) => c.column.id === "select"
+                        ).getContext()
                       )
                     }
                   ),
@@ -417,7 +428,9 @@ function DataTableMobile({
                         columns.find(
                           (c) => c.id === "actions"
                         )?.cell,
-                        { row }
+                        row.getAllCells().find(
+                          (c) => c.column.id === "actions"
+                        ).getContext()
                       )
                     }
                   ),
@@ -525,11 +538,15 @@ function DataTableMobile({
               columns.find(
                 (c) => c.id === "select"
               )?.cell,
-              { row }
+              row.getAllCells().find(
+                (c) => c.column.id === "select"
+              ).getContext()
             ) }),
             row.getAllCells().find((c) => c.column.id === "actions") && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { onClick: (e) => e.stopPropagation(), children: (0, import_react_table.flexRender)(
               columns.find((c) => c.id === "actions")?.cell,
-              { row }
+              row.getAllCells().find(
+                (c) => c.column.id === "actions"
+              ).getContext()
             ) })
           ] })
         ]
@@ -574,11 +591,15 @@ function DataTableMobile({
             columns.find(
               (c) => c.id === "select"
             )?.cell,
-            { row }
+            row.getAllCells().find(
+              (c) => c.column.id === "select"
+            ).getContext()
           ) }),
           row.getAllCells().find((c) => c.column.id === "actions") && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { onClick: (e) => e.stopPropagation(), children: (0, import_react_table.flexRender)(
             columns.find((c) => c.id === "actions")?.cell,
-            { row }
+            row.getAllCells().find(
+              (c) => c.column.id === "actions"
+            ).getContext()
           ) })
         ] })
       ]
@@ -1004,8 +1025,6 @@ Input.displayName = "Input";
 // src/components/data-table/components/DataTableToolbar.tsx
 var import_lucide_react5 = require("lucide-react");
 var React6 = __toESM(require("react"));
-var import_lucide_react6 = require("lucide-react");
-var import_lucide_react7 = require("lucide-react");
 var import_jsx_runtime13 = require("react/jsx-runtime");
 function DataTableToolbar({
   table,
@@ -1016,7 +1035,12 @@ function DataTableToolbar({
 }) {
   const [searchValue, setSearchValue] = React6.useState(globalFilter);
   const searchConfig = typeof features.search === "object" ? features.search : {};
-  const exportFormats = typeof features.export === "object" ? features.export : ["csv", "excel"];
+  const exportFormats = React6.useMemo(() => {
+    if (!features.export) return [];
+    if (features.export === true) return ["csv", "excel", "pdf"];
+    if (Array.isArray(features.export)) return features.export;
+    return [];
+  }, [features.export]);
   const hasFilters = table.getState().columnFilters.length > 0 || globalFilter;
   return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "flex items-center justify-between", children: [
     /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "flex flex-1 items-center space-x-2", children: [
@@ -1085,7 +1109,7 @@ function DataTableToolbar({
           })
         ] })
       ] }),
-      features.export && onExport && /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(DropdownMenu, { children: [
+      features.export && exportFormats.length > 0 && onExport && /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(DropdownMenu, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(Button, { variant: "outline", size: "sm", className: "h-9", children: [
           /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_lucide_react5.Download, { className: "mr-2 h-4 w-4" }),
           "Export"
@@ -1504,7 +1528,7 @@ var Checkbox = React8.forwardRef(({ className, ...props }, ref) => /* @__PURE__ 
 Checkbox.displayName = CheckboxPrimitive.Root.displayName;
 
 // src/components/data-table/utils/columnHelpers.tsx
-var import_lucide_react8 = require("lucide-react");
+var import_lucide_react6 = require("lucide-react");
 var import_jsx_runtime16 = require("react/jsx-runtime");
 var formatters = {
   text: (value) => String(value || ""),
@@ -1546,7 +1570,7 @@ function createColumns(configs) {
           className: "-ml-3 h-8 text-left justify-start",
           children: [
             config.header,
-            config.sortable && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react8.ArrowUpDown, { className: "ml-2 h-4 w-4" })
+            config.sortable && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react6.ArrowUpDown, { className: "ml-2 h-4 w-4" })
           ]
         }
       ) : config.header,
@@ -1616,7 +1640,7 @@ var columnHelpers = {
         className: "-ml-3 h-8 text-left justify-start",
         children: [
           options.header || String(key),
-          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react8.ArrowUpDown, { className: "ml-2 h-4 w-4" })
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react6.ArrowUpDown, { className: "ml-2 h-4 w-4" })
         ]
       }
     ),
@@ -1637,7 +1661,7 @@ var columnHelpers = {
         className: "-ml-3 h-8 text-left justify-start",
         children: [
           options.header || String(key),
-          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react8.ArrowUpDown, { className: "ml-2 h-4 w-4" })
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react6.ArrowUpDown, { className: "ml-2 h-4 w-4" })
         ]
       }
     ),
@@ -1658,7 +1682,7 @@ var columnHelpers = {
         className: "-ml-3 h-8 text-left justify-start",
         children: [
           options.header || String(key),
-          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react8.ArrowUpDown, { className: "ml-2 h-4 w-4" })
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react6.ArrowUpDown, { className: "ml-2 h-4 w-4" })
         ]
       }
     ),
@@ -1689,7 +1713,7 @@ var columnHelpers = {
       return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(DropdownMenu, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(Button, { variant: "ghost", className: "h-8 w-8 p-0", children: [
           /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { className: "sr-only", children: "Open menu" }),
-          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react8.MoreHorizontal, { className: "h-4 w-4" })
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react6.MoreHorizontal, { className: "h-4 w-4" })
         ] }) }),
         /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(DropdownMenuContent, { align: "end", children: [
           /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(DropdownMenuLabel, { children: "Actions" }),
@@ -1888,7 +1912,7 @@ function DataTable({
       })) });
     }
     return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: containerClassName, children: /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(Alert, { variant: "destructive", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_lucide_react9.AlertCircle, { className: "h-4 w-4" }),
+      /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_lucide_react7.AlertCircle, { className: "h-4 w-4" }),
       /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(AlertTitle, { children: "Error" }),
       /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(AlertDescription, { className: "flex items-center justify-between", children: [
         /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("span", { children: error.message || "An error occurred while loading the data." }),

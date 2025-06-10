@@ -2,6 +2,7 @@
 "use client";
 
 import { DataTable, columnHelpers } from "@/components/data-table";
+import type { ColumnDef } from "@tanstack/react-table";
 import { Edit, Eye, Trash } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -69,8 +70,8 @@ const products: Product[] = [
 export function AdvancedExample() {
 	const [data, setData] = useState(products);
 
-	// Define columns using column helpers
-	const columns = [
+	// Define columns using column helpers with explicit type
+	const columns: ColumnDef<Product, any>[] = [
 		columnHelpers.select<Product>(),
 		columnHelpers.text("name", {
 			header: "Product Name",

@@ -206,35 +206,44 @@ import * as React9 from "react";
 import { FileX2 } from "lucide-react";
 import * as React2 from "react";
 import { Fragment, jsx as jsx4, jsxs } from "react/jsx-runtime";
+function isEmptyStateConfig(config) {
+  return config && typeof config === "object" && !React2.isValidElement(config) && !Array.isArray(config);
+}
 function DataTableEmpty({ config }) {
   if (React2.isValidElement(config)) {
     return /* @__PURE__ */ jsx4(Fragment, { children: config });
   }
-  const emptyConfig = typeof config === "object" && config !== null ? config : {};
-  const Icon2 = emptyConfig.icon || FileX2;
-  return /* @__PURE__ */ jsxs(
-    "div",
-    {
-      className: cn(
-        "flex flex-col items-center justify-center py-10",
-        emptyConfig.className
-      ),
-      children: [
-        /* @__PURE__ */ jsx4(Icon2, { className: "h-10 w-10 text-muted-foreground mb-4" }),
-        /* @__PURE__ */ jsx4("h3", { className: "text-lg font-semibold", children: emptyConfig.title || "No results found" }),
-        /* @__PURE__ */ jsx4("p", { className: "text-sm text-muted-foreground mb-4 text-center max-w-sm", children: emptyConfig.description || "Try adjusting your search or filter to find what you're looking for." }),
-        emptyConfig.action && /* @__PURE__ */ jsx4(
-          Button,
-          {
-            variant: emptyConfig.action.variant || "outline",
-            size: "sm",
-            onClick: emptyConfig.action.onClick,
-            children: emptyConfig.action.label
-          }
-        )
-      ]
-    }
-  );
+  if (isEmptyStateConfig(config)) {
+    const Icon2 = config.icon || FileX2;
+    return /* @__PURE__ */ jsxs(
+      "div",
+      {
+        className: cn(
+          "flex flex-col items-center justify-center py-10",
+          config.className
+        ),
+        children: [
+          /* @__PURE__ */ jsx4(Icon2, { className: "h-10 w-10 text-muted-foreground mb-4" }),
+          /* @__PURE__ */ jsx4("h3", { className: "text-lg font-semibold", children: config.title || "No results found" }),
+          /* @__PURE__ */ jsx4("p", { className: "text-sm text-muted-foreground mb-4 text-center max-w-sm", children: config.description || "Try adjusting your search or filter to find what you're looking for." }),
+          config.action && /* @__PURE__ */ jsx4(
+            Button,
+            {
+              variant: config.action.variant || "outline",
+              size: "sm",
+              onClick: config.action.onClick,
+              children: config.action.label
+            }
+          )
+        ]
+      }
+    );
+  }
+  return /* @__PURE__ */ jsxs("div", { className: "flex flex-col items-center justify-center py-10", children: [
+    /* @__PURE__ */ jsx4(FileX2, { className: "h-10 w-10 text-muted-foreground mb-4" }),
+    /* @__PURE__ */ jsx4("h3", { className: "text-lg font-semibold", children: "No results found" }),
+    /* @__PURE__ */ jsx4("p", { className: "text-sm text-muted-foreground mb-4 text-center max-w-sm", children: "Try adjusting your search or filter to find what you're looking for." })
+  ] });
 }
 
 // src/components/ui/card.tsx
@@ -362,7 +371,9 @@ function DataTableMobile({
                         columns.find(
                           (c) => c.id === "select"
                         )?.cell,
-                        { row }
+                        row.getAllCells().find(
+                          (c) => c.column.id === "select"
+                        ).getContext()
                       )
                     }
                   ),
@@ -376,7 +387,9 @@ function DataTableMobile({
                         columns.find(
                           (c) => c.id === "actions"
                         )?.cell,
-                        { row }
+                        row.getAllCells().find(
+                          (c) => c.column.id === "actions"
+                        ).getContext()
                       )
                     }
                   ),
@@ -484,11 +497,15 @@ function DataTableMobile({
               columns.find(
                 (c) => c.id === "select"
               )?.cell,
-              { row }
+              row.getAllCells().find(
+                (c) => c.column.id === "select"
+              ).getContext()
             ) }),
             row.getAllCells().find((c) => c.column.id === "actions") && /* @__PURE__ */ jsx6("div", { onClick: (e) => e.stopPropagation(), children: flexRender(
               columns.find((c) => c.id === "actions")?.cell,
-              { row }
+              row.getAllCells().find(
+                (c) => c.column.id === "actions"
+              ).getContext()
             ) })
           ] })
         ]
@@ -533,11 +550,15 @@ function DataTableMobile({
             columns.find(
               (c) => c.id === "select"
             )?.cell,
-            { row }
+            row.getAllCells().find(
+              (c) => c.column.id === "select"
+            ).getContext()
           ) }),
           row.getAllCells().find((c) => c.column.id === "actions") && /* @__PURE__ */ jsx6("div", { onClick: (e) => e.stopPropagation(), children: flexRender(
             columns.find((c) => c.id === "actions")?.cell,
-            { row }
+            row.getAllCells().find(
+              (c) => c.column.id === "actions"
+            ).getContext()
           ) })
         ] })
       ]
@@ -972,14 +993,7 @@ Input.displayName = "Input";
 // src/components/data-table/components/DataTableToolbar.tsx
 import { Columns, Download, RefreshCw, Search, X } from "lucide-react";
 import * as React6 from "react";
-import {
-  ChevronLeft as ChevronLeft2,
-  ChevronRight as ChevronRight3,
-  ChevronsLeft as ChevronsLeft2,
-  ChevronsRight as ChevronsRight2
-} from "lucide-react";
-import { FileX2 as FileX22 } from "lucide-react";
-import { Fragment as Fragment3, jsx as jsx13, jsxs as jsxs7 } from "react/jsx-runtime";
+import { jsx as jsx13, jsxs as jsxs7 } from "react/jsx-runtime";
 function DataTableToolbar({
   table,
   features,
@@ -989,7 +1003,12 @@ function DataTableToolbar({
 }) {
   const [searchValue, setSearchValue] = React6.useState(globalFilter);
   const searchConfig = typeof features.search === "object" ? features.search : {};
-  const exportFormats = typeof features.export === "object" ? features.export : ["csv", "excel"];
+  const exportFormats = React6.useMemo(() => {
+    if (!features.export) return [];
+    if (features.export === true) return ["csv", "excel", "pdf"];
+    if (Array.isArray(features.export)) return features.export;
+    return [];
+  }, [features.export]);
   const hasFilters = table.getState().columnFilters.length > 0 || globalFilter;
   return /* @__PURE__ */ jsxs7("div", { className: "flex items-center justify-between", children: [
     /* @__PURE__ */ jsxs7("div", { className: "flex flex-1 items-center space-x-2", children: [
@@ -1058,7 +1077,7 @@ function DataTableToolbar({
           })
         ] })
       ] }),
-      features.export && onExport && /* @__PURE__ */ jsxs7(DropdownMenu, { children: [
+      features.export && exportFormats.length > 0 && onExport && /* @__PURE__ */ jsxs7(DropdownMenu, { children: [
         /* @__PURE__ */ jsx13(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ jsxs7(Button, { variant: "outline", size: "sm", className: "h-9", children: [
           /* @__PURE__ */ jsx13(Download, { className: "mr-2 h-4 w-4" }),
           "Export"
@@ -1787,7 +1806,7 @@ function mergeFeatures(preset, customFeatures) {
 }
 
 // src/components/data-table/DataTable.tsx
-import { Fragment as Fragment4, jsx as jsx17, jsxs as jsxs9 } from "react/jsx-runtime";
+import { Fragment as Fragment3, jsx as jsx17, jsxs as jsxs9 } from "react/jsx-runtime";
 function isColumnConfig(columns) {
   return columns.length > 0 && "key" in columns[0];
 }
@@ -1865,7 +1884,7 @@ function DataTable({
   }
   if (error) {
     if (renderError) {
-      return /* @__PURE__ */ jsx17(Fragment4, { children: renderError(error, onRetry || (() => {
+      return /* @__PURE__ */ jsx17(Fragment3, { children: renderError(error, onRetry || (() => {
       })) });
     }
     return /* @__PURE__ */ jsx17("div", { className: containerClassName, children: /* @__PURE__ */ jsxs9(Alert, { variant: "destructive", children: [
