@@ -377,7 +377,7 @@ pnpm build
 
 ## 📄 License
 
-MIT © [Your Organization](https://github.com/nickjames)
+MIT © [nickjames_](https://github.com/nickjames)
 
 ---
 
