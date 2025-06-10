@@ -1,0 +1,22 @@
+# Source files
+src/
+examples/
+docs/
+
+# Config files
+tsconfig.json
+tsup.config.ts
+tailwind.config.js
+postcss.config.js
+
+# Development files
+.git/
+.gitignore
+node_modules/
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+# Build files
+*.log
+.DS_Store
