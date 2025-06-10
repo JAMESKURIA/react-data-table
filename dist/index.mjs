@@ -1996,3 +1996,4 @@ export {
   tablePresets,
   useDataTable
 };
+//# sourceMappingURL=index.mjs.map
