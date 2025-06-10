@@ -12,7 +12,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { ColumnDef, flexRender } from "@tanstack/react-table";
+import { type ColumnDef, flexRender } from "@tanstack/react-table";
 import { AlertCircle } from "lucide-react";
 import * as React from "react";
 import { DataTableEmpty } from "./components/DataTableEmpty";

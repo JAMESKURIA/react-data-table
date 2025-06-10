@@ -239,7 +239,7 @@ function TableCell({ className, ...props }) {
 }
 
 // src/components/data-table/DataTable.tsx
-var import_react_table4 = require("@tanstack/react-table");
+var import_react_table3 = require("@tanstack/react-table");
 var import_lucide_react9 = require("lucide-react");
 var React9 = __toESM(require("react"));
 
@@ -1002,7 +1002,6 @@ var Input = React5.forwardRef(
 Input.displayName = "Input";
 
 // src/components/data-table/components/DataTableToolbar.tsx
-var import_react_table2 = require("@tanstack/react-table");
 var import_lucide_react5 = require("lucide-react");
 var React6 = __toESM(require("react"));
 var import_lucide_react6 = require("lucide-react");
@@ -1134,7 +1133,7 @@ function DataTableToolbar({
 }
 
 // src/components/data-table/hooks/useDataTable.ts
-var import_react_table3 = require("@tanstack/react-table");
+var import_react_table2 = require("@tanstack/react-table");
 var React7 = __toESM(require("react"));
 
 // src/components/data-table/utils/exportUtils.ts
@@ -1293,7 +1292,7 @@ function useDataTable({
       }, debounce);
     };
   }, [features?.search]);
-  const table = (0, import_react_table3.useReactTable)({
+  const table = (0, import_react_table2.useReactTable)({
     data,
     columns,
     pageCount: controlledPageCount,
@@ -1313,12 +1312,12 @@ function useDataTable({
     onColumnVisibilityChange: setColumnVisibility,
     onGlobalFilterChange: setGlobalFilter,
     onPaginationChange: setPagination,
-    getCoreRowModel: (0, import_react_table3.getCoreRowModel)(),
-    getFilteredRowModel: manualFiltering ? void 0 : (0, import_react_table3.getFilteredRowModel)(),
-    getPaginationRowModel: manualPagination ? void 0 : (0, import_react_table3.getPaginationRowModel)(),
-    getSortedRowModel: manualSorting ? void 0 : (0, import_react_table3.getSortedRowModel)(),
-    getFacetedRowModel: (0, import_react_table3.getFacetedRowModel)(),
-    getFacetedUniqueValues: (0, import_react_table3.getFacetedUniqueValues)(),
+    getCoreRowModel: (0, import_react_table2.getCoreRowModel)(),
+    getFilteredRowModel: manualFiltering ? void 0 : (0, import_react_table2.getFilteredRowModel)(),
+    getPaginationRowModel: manualPagination ? void 0 : (0, import_react_table2.getPaginationRowModel)(),
+    getSortedRowModel: manualSorting ? void 0 : (0, import_react_table2.getSortedRowModel)(),
+    getFacetedRowModel: (0, import_react_table2.getFacetedRowModel)(),
+    getFacetedUniqueValues: (0, import_react_table2.getFacetedUniqueValues)(),
     manualPagination,
     manualSorting,
     manualFiltering
@@ -1942,7 +1941,7 @@ function DataTable({
               width: meta?.width,
               textAlign: meta?.align
             },
-            children: header.isPlaceholder ? null : (0, import_react_table4.flexRender)(
+            children: header.isPlaceholder ? null : (0, import_react_table3.flexRender)(
               header.column.columnDef.header,
               header.getContext()
             )
@@ -1975,7 +1974,7 @@ function DataTable({
                 style: {
                   textAlign: meta?.align
                 },
-                children: (0, import_react_table4.flexRender)(
+                children: (0, import_react_table3.flexRender)(
                   cell.column.columnDef.cell,
                   cell.getContext()
                 )

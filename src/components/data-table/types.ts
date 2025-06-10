@@ -1,5 +1,5 @@
 // src/components/data-table/types.ts
-import {
+import type {
 	ColumnDef,
 	ColumnFiltersState,
 	PaginationState,

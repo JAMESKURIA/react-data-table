@@ -10,7 +10,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { Table } from "@tanstack/react-table";
+import type { Table } from "@tanstack/react-table";
 import {
 	ChevronLeft,
 	ChevronRight,

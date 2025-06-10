@@ -12,7 +12,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { Table } from "@tanstack/react-table";
+import { type Table } from "@tanstack/react-table";
 import { Columns, Download, RefreshCw, Search, X } from "lucide-react";
 import * as React from "react";
 import { TableFeatures } from "../types";
@@ -302,6 +302,7 @@ export function DataTablePagination<TData>({
 // src/components/data-table/components/DataTableSkeleton.tsx
 import { Skeleton } from "@/components/ui/skeleton";
 import {
+	Table as FormTable,
 	TableBody,
 	TableCell,
 	TableHead,
@@ -324,7 +325,7 @@ export function DataTableSkeleton({
 }: DataTableSkeletonProps) {
 	return (
 		<div className="rounded-md border">
-			<Table>
+			<FormTable>
 				{showHeaders && (
 					<TableHeader>
 						<TableRow>
@@ -355,7 +356,7 @@ export function DataTableSkeleton({
 						</TableRow>
 					))}
 				</TableBody>
-			</Table>
+			</FormTable>
 		</div>
 	);
 }

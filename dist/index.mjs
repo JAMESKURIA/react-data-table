@@ -970,7 +970,6 @@ var Input = React5.forwardRef(
 Input.displayName = "Input";
 
 // src/components/data-table/components/DataTableToolbar.tsx
-import { Table as Table3 } from "@tanstack/react-table";
 import { Columns, Download, RefreshCw, Search, X } from "lucide-react";
 import * as React6 from "react";
 import {

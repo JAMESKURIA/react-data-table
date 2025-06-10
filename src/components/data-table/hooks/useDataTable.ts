@@ -1,17 +1,20 @@
 // src/components/data-table/hooks/useDataTable.ts
 import {
-	ColumnDef,
-	ColumnFiltersState,
 	getCoreRowModel,
 	getFacetedRowModel,
 	getFacetedUniqueValues,
 	getFilteredRowModel,
 	getPaginationRowModel,
 	getSortedRowModel,
+	useReactTable,
+} from "@tanstack/react-table";
+
+import type {
+	ColumnDef,
+	ColumnFiltersState,
 	PaginationState,
 	RowSelectionState,
 	SortingState,
-	useReactTable,
 	VisibilityState,
 } from "@tanstack/react-table";
 import * as React from "react";

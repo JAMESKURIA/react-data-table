@@ -1,5 +1,5 @@
 // src/components/data-table/utils/exportUtils.ts
-import { ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef } from "@tanstack/react-table";
 
 // Helper to get the accessor key from a column
 function getAccessorKey<TData>(column: ColumnDef<TData, any>): string | null {

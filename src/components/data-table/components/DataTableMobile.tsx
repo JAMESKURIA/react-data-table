@@ -4,7 +4,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { ColumnDef, flexRender, Table } from "@tanstack/react-table";
+// Types (use type imports)
+import type { ColumnDef, Table } from "@tanstack/react-table";
+
+// Functions and utilities (regular imports)
+import { flexRender } from "@tanstack/react-table";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import * as React from "react";
 import { MobileConfig, TableFeatures } from "../types";
