@@ -2016,4 +2016,3 @@ function DataTable({
   tablePresets,
   useDataTable
 });
-//# sourceMappingURL=index.js.map
