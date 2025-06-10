@@ -24,7 +24,8 @@
     "dev": "tsup --watch",
     "build": "tsup",
     "lint": "tsc --noEmit",
-    "prepublishOnly": "pnpm build"
+    "prepublishOnly": "pnpm build",
+    "prepare": "pnpm build"
   },
   "keywords": [
     "react",
